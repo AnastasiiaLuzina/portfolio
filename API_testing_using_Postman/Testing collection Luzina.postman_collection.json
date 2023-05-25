@@ -1,0 +1,787 @@
+{
+	"info": {
+		"_postman_id": "3c10606c-b9c1-45d9-b7f7-b4063a5dd1af",
+		"name": "Testing collection Luzina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27031842"
+	},
+	"item": [
+		{
+			"name": "Smoke testing",
+			"item": [
+				{
+					"name": "Create a new user",
+					"item": [
+						{
+							"name": "Create a new user using valid data",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"// Генеруємо випадкове число від 1 до 100\r",
+											"var randomNumber = Math.floor(Math.random() * 100) + 1;\r",
+											"\r",
+											"// Формуємо значення змінної, складаючи \"user\" і випадкове число\r",
+											"var postName = \"user\" + randomNumber;\r",
+											"\r",
+											"// Зберігаємо значення змінної в середовищі\r",
+											"pm.environment.set(\"name\", postName);\r",
+											"\r",
+											"// Генеруємо випадкове число від 1 до 100\r",
+											"var randomNumber = Math.floor(Math.random() * 100) + 1;\r",
+											"\r",
+											"// Формуємо значення змінної, складаючи \"user\" і випадкове число\r",
+											"var postAge = randomNumber;\r",
+											"\r",
+											"// Зберігаємо значення змінної в середовищі\r",
+											"pm.environment.set(\"age\", postAge);\r",
+											"\r",
+											"// Масив міст України\r",
+											"var cities = [\"Kyiv\", \"Lviv\", \"Dnipro\", \"Kharkiv\", \"Ternopil\", \"Ivano-Frankivsk\", \"Zaporizhzhia\", \"Odesa\", \"Vinnytsia\", \"Lutsk\", \"Khmelnytskyi\", \"Rivne\", \"Poltava\", \"Zhytomyr\", \"Cherkasy\", \"Mykolaiv\", \"Chernivtsi\", \"Kropyvnytskyi\", \"Sumy\", \"Chernihiv\", \"Uzhhorod\", \"Kherson\", \"Donetsk\", \"Luhansk\", \"Simferopol\"];\r",
+											"\r",
+											"// Випадково вибираємо місто з масиву\r",
+											"var postCity = cities[Math.floor(Math.random() * cities.length)];\r",
+											"\r",
+											"// Зберігаємо значення змінної в середовищі\r",
+											"pm.environment.set(\"city\", postCity);\r",
+											"\r",
+											"// Масив статі\r",
+											"var gender = [\"female\", \"male\"];\r",
+											"\r",
+											"// Випадково вибираємо cnfnm з масиву\r",
+											"var postGender = gender[Math.floor(Math.random() * gender.length)];\r",
+											"\r",
+											"// Зберігаємо значення змінної в середовищі\r",
+											"pm.environment.set(\"gender\", postGender);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"JSON response contains id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('id');\r",
+											"});\r",
+											"pm.test(\"Set id\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.environment.set(\"id\", jsonData.id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"age\": \"{{age}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"city\": \"{{city}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a new user using invalid username",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"Validation error: name is invalid\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{invalidName}}\",\r\n    \"age\": \"{{age}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"city\": \"{{city}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a new user using invalid age",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"Validation error: age is invalid\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"age\": \"{{invalidAge}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"city\": \"{{city}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a new user using invalid gender (letters)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"Validation error: gender is invalid\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"age\": \"{{age}}\",\r\n    \"gender\": \"{{invalidGender}}\",\r\n    \"city\": \"{{city}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get information about user",
+					"item": [
+						{
+							"name": "Get information about user using valid id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get information about user using invalid id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"No users found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}1",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get information about user without id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"No parameters received in request\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?=",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Edit user information",
+					"item": [
+						{
+							"name": "Edit username using valid name",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"user name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.name).to.eql(\"Ivanna\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Ivanna\",\r\n    \"age\": \"{{age}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"city\": \"{{city}}\",\r\n    \"id\": \"{{id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit the age of the user using valid age",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"user age\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.age).to.eql(30);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Ivanna\",\r\n    \"age\": 30,\r\n    \"gender\": \"{{gender}}\",\r\n    \"city\": \"{{city}}\",\r\n    \"id\": \"{{id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit the gender of the user using valid gender",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"user gender\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.gender).to.eql(\"male\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"age\": \"{{age}}\",\r\n    \"gender\": \"male\",\r\n    \"city\": \"{{city}}\",\r\n    \"id\": \"{{id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit username using invalid name (less than 6 letters)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"Validation error: name is invalid\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{invalidName}}\",\r\n    \"age\": \"{{age}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"city\": \"{{city}}\",\r\n    \"id\": \"{{id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete user",
+					"item": [
+						{
+							"name": "Delete user by id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"User is deleted\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user by invalid id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\"No user found\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}?id={{id}}1",
+									"host": [
+										"{{url}}"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{id}}1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
